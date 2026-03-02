@@ -31,7 +31,7 @@ npm run build
 ## Próximos Passos
 
 - [ ] Adicionar gerenciamento de estado (carrinho)
-- [ ] Integrar banco de dados (Supabase/MongoDB)
+- ✅ Integrar banco de dados (Supabase/MongoDB)
 - [ ] Adicionar autenticação
 - [ ] Integrar gateway de pagamento
 - [ ] Adicionar cálculo de frete
