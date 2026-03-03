@@ -12,8 +12,9 @@ export default function Home() {
         <nav style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>COMPIA Editora</h1>
           <div style={{ display: 'flex', gap: '2rem' }}>
-            <Link href="/produtos" style={{ color: 'white', hover: { textDecoration: 'underline' } }}>Produtos</Link>
+            <Link href="/produtos" style={{ color: 'white' }}>Produtos</Link>
             <Link href="/carrinho" style={{ color: 'white' }}>Carrinho</Link>
+            <Link href="/admin/produtos" style={{ color: 'white' }}>Admin</Link>
           </div>
         </nav>
       </header>
