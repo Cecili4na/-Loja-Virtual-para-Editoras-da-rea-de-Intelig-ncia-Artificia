@@ -35,8 +35,3 @@ npm run build
 - [ ] Adicionar autenticação
 - [ ] Integrar gateway de pagamento
 - [ ] Adicionar cálculo de frete
-
-## Alunos
-Ana Cecilia Farias
-Gabriela Mendes
-João Henrique 
