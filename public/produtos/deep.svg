@@ -1,0 +1,10 @@
+<svg width="400" height="560" viewBox="0 0 400 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="560" rx="24" fill="#111827"/>
+  <rect x="20" y="20" width="360" height="520" rx="20" fill="#0B1220" stroke="#312E81"/>
+  <circle cx="300" cy="100" r="85" fill="#A78BFA" fill-opacity="0.25"/>
+  <circle cx="90" cy="430" r="120" fill="#22D3EE" fill-opacity="0.18"/>
+  <text x="36" y="110" fill="#C4B5FD" font-size="18" font-family="Inter, Arial" letter-spacing="2">COMPIA EDITORA</text>
+  <text x="36" y="220" fill="#F8FAFC" font-size="34" font-family="Inter, Arial" font-weight="700">Deep</text>
+  <text x="36" y="262" fill="#F8FAFC" font-size="34" font-family="Inter, Arial" font-weight="700">Learning</text>
+  <text x="36" y="450" fill="#A5B4FC" font-size="16" font-family="Inter, Arial">Serie Pratica</text>
+</svg>

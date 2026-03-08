@@ -1,10 +1,7 @@
-import type { Metadata } from 'next'
-import './globals.css'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'COMPIA Editora - Livros de Inteligência Artificial',
-  description: 'Plataforma de e-commerce da COMPIA Editora',
-}
+import './globals.css'
+import { CarrinhoProvider } from './contexts/CarrinhoContext'
 
 export default function RootLayout({
   children,
@@ -13,7 +10,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <CarrinhoProvider>
+          {children}
+        </CarrinhoProvider>
+      </body>
     </html>
   )
 }

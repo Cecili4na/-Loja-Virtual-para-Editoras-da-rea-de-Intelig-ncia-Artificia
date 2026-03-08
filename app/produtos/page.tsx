@@ -1,134 +1,216 @@
-import Link from 'next/link'
+'use client'
 
-const produtos = [
-  {
-    id: 1,
-    titulo: 'Introdução ao Machine Learning',
-    autor: 'Dr. João Silva',
-    preco: 89.90,
-    tipo: 'fisico',
-    imagem: '/placeholder.jpg'
-  },
-  {
-    id: 2,
-    titulo: 'Deep Learning na Prática',
-    autor: 'Dra. Maria Santos',
-    preco: 129.90,
-    tipo: 'fisico',
-    imagem: '/placeholder.jpg'
-  },
-  {
-    id: 3,
-    titulo: 'NLP com Python - E-book',
-    autor: 'Prof. Carlos Oliveira',
-    preco: 49.90,
-    tipo: 'digital',
-    imagem: '/placeholder.jpg'
-  },
-]
+import { useState } from 'react'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import ProdutoCard from '../components/ProdutoCard'
+import { produtos } from '../data/produtos'
 
 export default function Produtos() {
-  return (
-    <div style={{ minHeight: '100vh' }}>
-      <header style={{ 
-        background: '#2c3e50', 
-        color: 'white', 
-        padding: '1rem 2rem',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-      }}>
-        <nav style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link href="/">
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', cursor: 'pointer' }}>COMPIA Editora</h1>
-          </Link>
-          <div style={{ display: 'flex', gap: '2rem' }}>
-            <Link href="/produtos" style={{ color: 'white', fontWeight: 'bold' }}>Produtos</Link>
-            <Link href="/carrinho" style={{ color: 'white' }}>Carrinho</Link>
-          </div>
-        </nav>
-      </header>
+  const [filtroTipo, setFiltroTipo] = useState<'todos' | 'fisico' | 'digital'>('todos')
+  const [ordenacao, setOrdenacao] = useState<'preco-asc' | 'preco-desc' | 'nome'>('nome')
 
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Catálogo de Produtos</h2>
-        
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
-          gap: '2rem' 
-        }}>
-          {produtos.map((produto) => (
-            <div 
-              key={produto.id}
-              style={{ 
-                border: '1px solid #ddd', 
-                borderRadius: '8px',
-                overflow: 'hidden',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                transition: 'transform 0.2s'
-              }}
-            >
-              <div style={{ 
-                height: '200px', 
-                background: '#f0f0f0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <span style={{ color: '#999' }}>Imagem do Produto</span>
-              </div>
-              
-              <div style={{ padding: '1.5rem' }}>
-                <span style={{ 
-                  fontSize: '0.8rem', 
-                  color: '#3498db',
-                  textTransform: 'uppercase',
-                  fontWeight: 'bold'
-                }}>
-                  {produto.tipo === 'digital' ? '📱 E-book' : '📚 Físico'}
-                </span>
-                
-                <h3 style={{ 
-                  fontSize: '1.2rem', 
-                  margin: '0.5rem 0',
-                  color: '#2c3e50'
-                }}>
-                  {produto.titulo}
-                </h3>
-                
-                <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                  {produto.autor}
-                </p>
-                
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  marginTop: '1rem'
-                }}>
-                  <span style={{ 
-                    fontSize: '1.5rem', 
-                    fontWeight: 'bold',
-                    color: '#27ae60'
-                  }}>
-                    R$ {produto.preco.toFixed(2).replace('.', ',')}
-                  </span>
-                  
-                  <button style={{ 
-                    background: '#3498db', 
-                    color: 'white', 
-                    border: 'none',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}>
-                    Adicionar
-                  </button>
-                </div>
-              </div>
+  const produtosFiltrados = produtos.filter((produto) => {
+    if (filtroTipo === 'todos') return true
+    return produto.tipo === filtroTipo
+  })
+
+  const produtosOrdenados = [...produtosFiltrados].sort((a, b) => {
+    if (ordenacao === 'preco-asc') return a.preco - b.preco
+    if (ordenacao === 'preco-desc') return b.preco - a.preco
+    return a.titulo.localeCompare(b.titulo)
+  })
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Header />
+
+      <main className="container" style={{ flex: 1 }}>
+        <div className="produtos-header">
+          <h2>Catálogo de Produtos</h2>
+          <p className="produtos-subtitle">
+            {produtosOrdenados.length} {produtosOrdenados.length === 1 ? 'produto encontrado' : 'produtos encontrados'}
+          </p>
+        </div>
+
+        <div className="filtros-container">
+          <div className="filtro-group">
+            <label>Tipo:</label>
+            <div className="filtro-buttons">
+              <button
+                className={`filtro-button ${filtroTipo === 'todos' ? 'active' : ''}`}
+                onClick={() => setFiltroTipo('todos')}
+              >
+                Todos
+              </button>
+              <button
+                className={`filtro-button ${filtroTipo === 'fisico' ? 'active' : ''}`}
+                onClick={() => setFiltroTipo('fisico')}
+              >
+                Físicos
+              </button>
+              <button
+                className={`filtro-button ${filtroTipo === 'digital' ? 'active' : ''}`}
+                onClick={() => setFiltroTipo('digital')}
+              >
+                E-books
+              </button>
             </div>
+          </div>
+
+          <div className="filtro-group">
+            <label>Ordenar por:</label>
+            <select
+              className="ordenacao-select"
+              value={ordenacao}
+              onChange={(e) => setOrdenacao(e.target.value as any)}
+            >
+              <option value="nome">Nome</option>
+              <option value="preco-asc">Menor preço</option>
+              <option value="preco-desc">Maior preço</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="produtos-grid">
+          {produtosOrdenados.map((produto) => (
+            <ProdutoCard key={produto.id} produto={produto} />
           ))}
         </div>
+
+        {produtosOrdenados.length === 0 && (
+          <div className="empty-state">
+            <p>Nenhum produto encontrado com os filtros selecionados.</p>
+          </div>
+        )}
       </main>
+
+      <Footer />
+
+      <style jsx>{`
+        .produtos-header {
+          text-align: center;
+          margin-bottom: 3rem;
+          padding-top: 2rem;
+        }
+
+        .produtos-header h2 {
+          font-size: 2.5rem;
+          color: var(--ink);
+          margin-bottom: 0.5rem;
+        }
+
+        .produtos-subtitle {
+          color: var(--muted);
+          font-size: 1.1rem;
+        }
+
+        .filtros-container {
+          background: rgba(18, 24, 42, 0.85);
+          padding: 1.5rem;
+          border-radius: 16px;
+          margin-bottom: 2rem;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2rem;
+          align-items: center;
+          border: 1px solid var(--line);
+          box-shadow: 0 14px 24px rgba(7, 10, 24, 0.35);
+        }
+
+        .filtro-group {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .filtro-group label {
+          font-weight: 600;
+          color: var(--ink);
+        }
+
+        .filtro-buttons {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .filtro-button {
+          padding: 0.5rem 1.25rem;
+          border: 2px solid #e2e8f0;
+          background: rgba(9, 12, 22, 0.45);
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: all 0.2s;
+          color: var(--ink);
+        }
+
+        .filtro-button:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+
+        .filtro-button.active {
+          background: linear-gradient(135deg, var(--accent), var(--accent-2));
+          color: #061021;
+          border-color: transparent;
+        }
+
+        .ordenacao-select {
+          padding: 0.5rem 1rem;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          background: rgba(9, 12, 22, 0.45);
+          cursor: pointer;
+          font-weight: 500;
+          color: var(--ink);
+          transition: border-color 0.2s;
+        }
+
+        .ordenacao-select:focus {
+          outline: none;
+          border-color: #667eea;
+        }
+
+        .produtos-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 2rem;
+          margin-bottom: 3rem;
+        }
+
+        .empty-state {
+          text-align: center;
+          padding: 4rem 2rem;
+          color: #718096;
+          font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+          .produtos-header h2 {
+            font-size: 1.8rem;
+          }
+
+          .filtros-container {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .filtro-group {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .filtro-buttons {
+            flex-wrap: wrap;
+          }
+
+          .produtos-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </div>
   )
 }
+
