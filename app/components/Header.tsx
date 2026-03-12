@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useCarrinho } from '../contexts/CarrinhoContext'
+import { useProdutos } from '../contexts/ProdutosContext'
 
 export default function Header() {
   const { quantidadeTotal } = useCarrinho()
+  const { adminAtivo } = useProdutos()
   const quantidadeAnterior = useRef(quantidadeTotal)
   const [itemAdicionado, setItemAdicionado] = useState(false)
 
@@ -30,6 +32,9 @@ export default function Header() {
         <div className="nav-links">
           <Link href="/produtos" className="nav-link">
             Produtos
+          </Link>
+          <Link href="/admin" className={`nav-link ${adminAtivo ? 'admin-active' : ''}`}>
+            Admin
           </Link>
           <Link href="/carrinho" className="nav-link cart-link">
             <span className="cart-label">Carrinho</span>
@@ -120,6 +125,10 @@ export default function Header() {
 
         .nav-link:hover::after {
           transform: scaleX(1);
+        }
+
+        .admin-active {
+          color: var(--accent);
         }
 
         .cart-link {

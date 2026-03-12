@@ -4,11 +4,12 @@ import { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ProdutoCard from '../components/ProdutoCard'
-import { produtos } from '../data/produtos'
+import { useProdutos } from '../contexts/ProdutosContext'
 
 export default function Produtos() {
   const [filtroTipo, setFiltroTipo] = useState<'todos' | 'fisico' | 'digital'>('todos')
   const [ordenacao, setOrdenacao] = useState<'preco-asc' | 'preco-desc' | 'nome'>('nome')
+  const { produtos } = useProdutos()
 
   const produtosFiltrados = produtos.filter((produto) => {
     if (filtroTipo === 'todos') return true
