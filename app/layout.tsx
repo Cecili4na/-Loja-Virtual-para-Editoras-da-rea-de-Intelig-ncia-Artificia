@@ -2,6 +2,7 @@
 
 import './globals.css'
 import { CarrinhoProvider } from './contexts/CarrinhoContext'
+import { ProdutosProvider } from './contexts/ProdutosContext'
 
 export default function RootLayout({
   children,
@@ -11,9 +12,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <CarrinhoProvider>
-          {children}
-        </CarrinhoProvider>
+        <ProdutosProvider>
+          <CarrinhoProvider>
+            {children}
+          </CarrinhoProvider>
+        </ProdutosProvider>
       </body>
     </html>
   )
